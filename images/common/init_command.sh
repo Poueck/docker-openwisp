@@ -34,7 +34,9 @@ elif [ "$MODULE_NAME" = 'openvpn' ]; then
 	openvpn_config
 	openvpn_config_download
 	crl_download
+ 	# Update configuration every minutes
 	echo "*/1 * * * * sh /openvpn.sh" | crontab -
+ 	# Update CRL every hours
 	(
 		crontab -l
 		echo "0 * * * * sh /revokelist.sh"
@@ -46,10 +48,10 @@ elif [ "$MODULE_NAME" = 'openvpn' ]; then
 		init_send_network_topology
 	fi
 	# Supervisor is used to start the service because OpenVPN
-	# needs to restart after crl list is updated or configurations
-	# are changed. If OpenVPN as the service keeping the
-	# docker container running, restarting would mean killing
-	# the container while supervisor helps only to restart the service!
+	# needs to restart after configurations are changed.
+	# If OpenVPN as the service keeping the docker container
+	# running, restarting would mean killing the container 
+	# while supervisor helps only to restart the service!
 	supervisord --nodaemon --configuration supervisord.conf
 elif [ "$MODULE_NAME" = 'nginx' ]; then
 	rm -rf /etc/nginx/conf.d/default.conf
