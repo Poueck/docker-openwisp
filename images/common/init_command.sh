@@ -34,24 +34,19 @@ elif [ "$MODULE_NAME" = 'openvpn' ]; then
 	openvpn_config
 	openvpn_config_download
 	crl_download
- 	# Update configuration every minutes
-	echo "*/1 * * * * sh /openvpn.sh" | crontab -
- 	# Update CRL every hours
+ 	# Check configuration update every minutes
+	echo "*/1 * * * * cd / && sh /openvpn.sh" | crontab -
+ 	# Update CRL every 6 hours
 	(
 		crontab -l
-		echo "0 * * * * sh /revokelist.sh"
+		echo "0 */6 * * * cd / && sh /revokelist.sh"
 	) | crontab -
-	crond
 	# Schedule send topology script only when
 	# network topology module is enabled.
 	if [ "$USE_OPENWISP_TOPOLOGY" == "True" ]; then
 		init_send_network_topology
 	fi
-	# Supervisor is used to start the service because OpenVPN
-	# needs to restart after configurations are changed.
-	# If OpenVPN as the service keeping the docker container
-	# running, restarting would mean killing the container 
-	# while supervisor helps only to restart the service!
+	# Supervisor is used to start the OpenVPN and crond service
 	supervisord --nodaemon --configuration supervisord.conf
 elif [ "$MODULE_NAME" = 'nginx' ]; then
 	rm -rf /etc/nginx/conf.d/default.conf
