@@ -4,12 +4,12 @@ django-redis
 psycopg2
 sentry-sdk
 supervisor~=4.2  # allows 4.x and > 4.2
-django-cors-headers~=4.4
+django-cors-headers~=4.6
 django-pipeline~=3.1
-uwsgi~=2.0.27
+uwsgi~=2.0.28
 django-celery-email~=3.0.0
 tldextract~=5.1.2
 # these add support for object storage
 # (eg: Amazon S3, GCS)
 django-storages~=1.14.4
-boto3~=1.35.45
+boto3~=1.35.55
