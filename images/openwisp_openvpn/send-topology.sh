@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "`date` Upload topology data to OpenWISP"
+echo "`date -Iseconds` Upload topology data to OpenWISP"
 COMMAND="cat /var/log/tun0.status"
 # Upload the topology data to OpenWISP
 $COMMAND | curl --silent -X POST \

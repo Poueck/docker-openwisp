@@ -5,5 +5,5 @@
 source /utils.sh
 
 openvpn_config
-echo "`date` Update CRL"
+echo "`date -Iseconds` Update CRL"
 crl_download
